@@ -1,0 +1,52 @@
+{% extends 'myapp/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br>
+    <h2 style="color: seagreen;">Application form</h2>
+    <hr>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                {{ form.name|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.email|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group mt-5">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" id="customFile" class="custom-file-input form-control-sm"
+                                onchange="loadFile(event)" required>
+                            <label class="custom-file-label col-form-label-sm" for="custmFile">Choose file</label>
+                        </div>
+                    </div>
+                    <br>
+                    <img style="max-width: 200px;max-height: 200px;" class="mt-1" id="output" />
+                    <script>
+                        var loadFile = function (event) {
+                            var reader = new FileReader();
+                            reader.onload = function () {
+                                var output = document.getElementById('output');
+                                output.src = reader.result;
+                            };
+                            reader.readAsDataURL(event.target.files[0]);
+                        };
+                    </script>
+                </div>
+            </div>
+            <div class="col-6">
+                {{ form.message|as_crispy_field }}
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success float-none" style="margin: auto;">Save person</button>
+
+        </div>
+    </form>
+{% endblock %}
